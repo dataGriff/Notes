@@ -16,4 +16,9 @@
 ##Sugar CRM
 * Local - install bitnami
 * https://bitnami.com/
+* Live requires PHP, Mysql , APACHE, LINUX. (LAMP) Something about Joomla Course?
+
+##Decided to Create a LINUX in AWS
+* https://aws.amazon.com/getting-started/tutorials/launch-a-virtual-machine/
+##Then used bitnami to create an hour demo of Sugar CRM in the cloud :)
 
