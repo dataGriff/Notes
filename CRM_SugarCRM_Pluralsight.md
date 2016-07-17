@@ -20,6 +20,7 @@
 
 ###Decided to Create a LINUX in AWS
 * https://aws.amazon.com/getting-started/tutorials/launch-a-virtual-machine/
+
 ###Then used https://bitnami.com/ to create an hour demo of Sugar CRM in the cloud :)
 
 ##Finding Way Around
