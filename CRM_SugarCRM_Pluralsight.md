@@ -41,3 +41,23 @@
 * List, Detail, Edit, Quick Create, Sugar Dashlet, Popup, Search
 * You can do all of the above to the 17 modules
 * All customisable
+
+##Establish a Strategy
+* Unified contact repository database
+* Can be used for campaigns and leads
+
+##Campaigns (uses Campaigns Module)
+* Newsletter, Email, NonEmail (web, radio, mail etc Executed externally to CRM but recorded here)
+1. Setup Email - required bounce email and loads of other settings
+1. Create Targets - in target module 
+1. Create Target Lists - can add from contacts. Need 3 lists (Subscribe, Unsubscribe, Test)
+1. Prepare your content - can use https://www.campaignmonitor.com/
+1. Create Campaign - campaign module, classic or wizard. Can add trackers to see who clicks on what.
+1. Test - send to test list
+1. Launch 
+
+##Activites and Collaboration
+* You can share calendars and view whos accepted invitations etc
+* Create calls and invite contacts
+* Meetings tool, Tasks, Notes, Documents 
+* Can add all these things related to an account
