@@ -58,11 +58,11 @@
 
 ## packages
 https://pip.pypa.io/en/stable/installing/
----
+```
 get-pip.py
 python3 get-pip.py
 pip3 install numpy
----
+```
 
 * numpy
 * matplotlib
@@ -71,27 +71,27 @@ pip3 install numpy
 * scipy
 
 To import packages
----
+```
 import numpy
 numpy.array([1,2,3])
 import numpy as np # alias
 np.array([1,2,3])
 from numpy import array # only imports array
 array([1,2,3]) # dont know using numpy then though so harder to read
----
+```
 You can use math.pi with math package
 
 ## numpy
 
 * Numeric python3
 * Creates numpy array so can perform calc over arrays
----
+```
 pip3 install numpt
----
----
+```
+```
 import numpy as np
 np.array(list)
----
+```
 * Numpy arrays only contain one type
 * Therefore coercion takes place when mixed
 * It is just another type and contains its own methods
