@@ -55,7 +55,7 @@
 
 * PaaS (Platform as a Service)
 * Server not a machine in Azure, it's a TDS proxy endpoint
-* SSL TDS encryption (Tabular Data Stream)[https://en.wikipedia.org/wiki/Tabular_Data_Stream]
+* SSL TDS encryption [Tabular Data Stream](https://en.wikipedia.org/wiki/Tabular_Data_Stream)
 * Load Balanced
 * SQL Azure Fabric - Automated Failover, Replication and Load Balancing
 * As long as can talk TDS, stuff can access Azure
@@ -134,6 +134,73 @@
 * Export copy as BACPAC to Azure Blob Storage 
 
 ## Migration and Maintenance
+
+### Missing Stuff 
+
+* **Easier to Fix**
+* IS - can use IaaS
+* RS
+* AS
+* SQL Agent 
+
+* **Harder to Fix**
+* Cross DB Trans (so IaaS)
+* SMO (SQL Management Objects_
+* Som system objects
+* Full Text Indexing
+* Transparent Data Encryption
+* Master Data Services
+* Data Auditing and CDC
+* SQL Agent 
+
+### Non-Supported DDL
+
+* XML Schema on XML COlumns
+* CLR
+* Tables without clustered indesx or PK
+* Filestream
+* Google what is missing 
+
+### Non-Supported DML
+
+* BULK INSERT
+* OPENROWSET, OPENQUERY, OPENXML
+* EXECUTE AS LOGIN
+* Several DBCC commands
+* Google what is missing
+
+### Other Gremlins
+
+* Limits on user names (E.g. sa)
+* USE is not used supported
+* Must specify db name in connection string
+* ALTER INDEX REORGANIZE (have to REBUILD, can't do REORGANIZE)
+* Best to use latest versionf of stuff (e.g. .Net) to move to Azure
+
+### Migration Wizard
+
+* Open source [Migration Wizard](https://sqlazuremw.codeplex.com/) on codeplex
+* Tool will analyse database 
+* Gets schema up to date and resolves errors
+* Script database that is created 
+* SSMS has deploy database to SQL Azure option based on this 
+* dacpac (schema only) and bacpac (data and schema) are compatibe to upload to Azure
+
+### Index Maintenance
+
+* Only maintenance job left is use SQL DB PaaS
+* No tasks for DBAs apart from this!
+* REBUILD only 
+* Performance tuning still required to be done by you 
+* can still look at sys.dm_db_index_physical_stats 
+* Do usual stuff and look for over certain % etc (Ola Hallengren!)
+* Windows Azure Scheduler - does this exist? Can use instead of Agent
+
+### Scripted Backup 
+
+* Says no point in time support - think there is now
+* CREATE... COPY OF -> EXPORT TO BLOB. Basically copying to other Azure instances. 
+* For import export each Azure data centre has its own endpoint definition 
 
 ## Windows Azure SQL Database Premium SKU
 
