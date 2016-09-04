@@ -204,4 +204,87 @@
 
 ## Windows Azure SQL Database Premium SKU
 
+* This is a shared service - multi tenant mode
+* You're sharing resources 
+* Noisy neighbour - they do IO on your stuff can affect you
+* Throttling - tactic to ensure doesnt completely wreck your shared resources
+* Your database can have times its fast and slow depending on others
+* Premium Azure SQL Database  - dedicated resources, CPU, IO, Memory, pay more but avoid noisy neighbour
+* Have some of biggest internnt pipes in world so latency shouldnt be an issue
+
+### Scale UP vs Scale Out 
+
+* **Scale Out** 
+* Multiple databases and route to right data via distribution key
+* Spreading load across lots of databases means higher throughput 
+* Sharding like in PaaS easier as not managing loads of VMs as you would in IaaS 
+
+### Performance Principles 
+
+* Chunky not chatty - batch work, get all data at once
+* Caching - minimize unneccesary reads, how fresh does web app data have to be (consider short duration caching)
+* Be sensitive to IO
+
+### Instrumenting your app
+
+* Snapshotting DMVs
+* Collecting XEvents 
+
+### Other places get info
+
+* SQL DB Portal - Query performance from DMV, connection activity
+* Exeution plans
+* Special wait stats - SE_REPL_SLOW_SECONDARY_THROTTLE (e.g. noisy neighbour issues)
+* Call support - need session info to be able to call them 
+
+### DMVs to use
+
+* sys.dm_exec_requests - currentlly running queries
+* sys.dm_exec_query_stats - aggregate query performance
+* sys.dm_exec_query_plan - execution plan
+* sys.dm_db_wait_stats - db levbel wait stats
+* "missing index" dmos - indexes for perfomance
+
 ## Developing for SQL Database
+
+* SDK - [Software Development Kit](https://en.wikipedia.org/wiki/Software_development_kit)
+
+### Azure Mobile Services Against Sql Server
+
+* **In Azure GUI...**
+* New Mobile Service 
+* Enter unique DNS name 
+* Can use an existing Azure SQL Database
+* Pick region 
+* Enter login name and password 
+* Fast and zero code way of creating an [API](https://en.wikipedia.org/wiki/Application_programming_interface)
+* REST is open protocol so can have internal and external consumption
+* You can pick a platform e.g. Windows, iOS, Android, HTML/JavaScript, Xamarin
+* Can download sample app
+* You can get endpoint from what they provide 
+* Sample app added to the table! 
+* Very easy to get started 
+
+* **PHP**
+* Create a website very easily 
+* New website from gallery 
+* Give URL name and region 
+* All infrastrcuture is managed 
+* Can open up web matrix to edit code 
+* Get FQDNS Host for the database you want to connect to 
+* have to add user, dbname, password etc 
+* Run website straight away from what setup which retrieves data 
+
+* **.Net**
+* Visual studio console app simple stuff
+* Basic Ado.Net to work with SQL Azure databases
+* Uses SQLCommand, DataReader, DataAdapter etc and connection string to Azure
+* Returns into console your command from SQL Azure 
+* Transient faults - these can be small issues that sometimes in relation to Azure, so doesnt just break
+* TransientFaultHandling - can install this for Azure SQL Databases 
+* Define a retry strategy e.g. try 5 times every 1 second then increment a  time each retry
+* Create retry policy based on what is a transient fault and fatal error
+* Change SQLConnection object to ReliableSQLConnection, this understands transient faults 
+* Cascading errors can be very bad in the cloud 
+* AlwaysOn - TransientFaultHandling should be used anyway, not just for Azure 
+
