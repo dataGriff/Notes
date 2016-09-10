@@ -152,6 +152,7 @@ To shared lower cost
 * Use DB compression
 * Use windows instant file initialisation (to reduce backup times)
 * Expect higher IO disk latencies than on premises
+* Just look for performance whitepaper
 
 
 
