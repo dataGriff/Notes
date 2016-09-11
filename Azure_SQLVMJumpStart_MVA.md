@@ -213,6 +213,80 @@ To shared lower cost
 * Option 1: Use filegroups with multiple db files, place each db file on seperate data disk - **showed best performance in testing**, does not help scaling transaction log
 * Option 2: Create OS volumne on top of multiple data disks - striped
 
+### Tool for performance
+
+* [SQLIO](https://www.microsoft.com/en-gb/download/details.aspx?id=20163)
+
+### VM Network Best Practices
+
+* Network latency can be higher compared to on prem
+*   Virtualization msecurity, load balancing, proximity
+*   Reducing network round trips can have more impact compare to on-prem
+* Consolidate chartty application layers on the same machine
+* Host VMs in the same Virtual Network / Cloud Service
+
+### Should tempdb go on D drive? 
+
+* **No**
+* Why? 
+* Preditable performance - D drive shares with other VMs on host so performance to variable
+* Configuration overhead - will have to recreate TEMPDB in D if VM goes down, SQL Service account requires admin priveleges. If stored in separate folder this needs to be created at startup
+
+### Reduce IO with Data Compression
+
+* IO intensive workloads: fewer pages so reduced IO. Even more important in Azure 
+
+### Reduce IO with Instant File Initialisation
+
+* Not default in Azure VM Images
+* Reduces IO for - creatinfg DB, restore db, adding files to DB, extending file size, autogrow
+* Add SQL Service account to **perform volume maintenance tasks** security policy
+* Restart SQL Server
+* Note: doesnt help trnasaction log
+
+### What else to consider for data disk performance? 
+
+* Disk warm-up
+* [NTFS](https://en.wikipedia.org/wiki/NTFS) allocation unit size
+* Single vs. multiple storage accounts with a single VM
+*   **DO NOT SPREAD DATA FILES OF A SINGLE DATABSE INTO MULTIPLE STORAGE ACCOUNTS**
+*     Data in different blobs not written at the same time
+*     BLOBs that make up the stripe set could be out of sync
+*   Instead:
+*     Spread the data files across multipke disjs to achieve higher IOPS/bandwithd
+*   Note: a storage account has limit fo 20K tps 
+
+### Performance Monitoring
+
+* Goal: Determine IO capacity if VM configurations, Establish baseline
+* Tools [SQLIO](https://www.microsoft.com/en-gb/download/details.aspx?id=20163) - Disk subssystem benchmark tool, performance metrics, DMvs. 
+
+* **Key Tools**
+* VM dashboard
+* Storage Analytics
+* SQL perf counters
+
+### High level troubleshooting steps
+
+* Define KPIs to monitor resourece utilisation
+* Monitor KPIs to track utilisation over time
+* Exmaine trends and patterns as workload increases
+* Mionitor DMVs to understand resource contention waits
+* Monitor spinlock and backoff events
+* Gogle troubleshooting common VM issues and find KPIs to monitor
+
+### Summary
+
+* Read whitepaprt
+* PLan and test for IO perf variability
+* Identify optimal VM size
+* Optimse for reduce IO and network round trips
+* Use Filegroups and multiple daty disks for large DBs
+* Identify your KPIs to montior
+* Revisit optimisation decisions as workload changes
+
+* [Link to best practices documentation](https://azure.microsoft.com/en-gb/documentation/articles/virtual-machines-windows-sql-performance/)
+* See white paper you download on performance guidance for SQL server in Azure VMs
 
 
 
