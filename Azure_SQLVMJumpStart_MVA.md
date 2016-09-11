@@ -154,6 +154,72 @@ To shared lower cost
 * Expect higher IO disk latencies than on premises
 * Just look for performance whitepaper
 
+## SQL Server on Azure VM Performance
+
+### Key Performance Considerations
+
+* Analyse performance impact, is it a problem with SQL App? Or how I configured IaaS?
+* KPIs - throughput, response time (latency)
+* Dimension - workload (OLTP, DW, Backup), IO size and pattern
+
+### Windows Azure VM Sizes
+
+* Varies a lot but still limited
+* CPU cores, Memory, OS disk space, temp disk space, max no of data disks (1TB each), Max IOPS (inputs outputs)
+
+### Windows Azure IO Subsystem
+
+* Disks implemented as a shared multi-tennant service
+* Built in triple redundancy, optional geo-redudnancy
+* Performance less predictable than on-prem
+
+### VM Disk Types and Configurtions
+
+* OS disk (persistent) - 127GB optimised for OS e.g. bootup
+* Data disk (persist) - VHD attach to VM to store app data, up to 1TB in szie and 16 disks for big VMs
+* Temporary local disk (non-persisted) - Volume D - transient data, cleaned up in VM fail or recycle, physical disks across other VMs on same physical machine, not receommended for user or system db files. Dont store data here. 
+
+### VM Disk Caching and Configurations
+
+* Caches VM data inside physical host
+* 2 tier cache - RAM cache, local hard disk
+* **Disk type caching**
+* OS disk - supported, default read write
+* Data disk - supported (up to 4), supported (up to 4)
+* Temp Disk - Implemented using local attached storage 
+
+### Disk caching Best Practices for SQL Server
+
+* **OS Disk**
+* Read wrote defai;t redices ready latency for IO intensive workloads with smaller DBs (<=10GB)
+* Working set can fit in disk cache or memory, reducing blob storage IO
+* **Data disks**
+* Cache setting depends on the IO pattern and workload intensity
+* Use default of none for higher rate of random IOs (e.g. OLTP) & higher throuput - byp[asses physical hosts disks, maximising IO rate
+* Consider enabling read cache for latency sensitive read heavy workloads - lower latency then for reading
+
+### Single Disk Configuration
+
+* Recommended for <1TB stirage
+* Accetpable performance (<500 IOPS)
+* Minimal complexity, simpler recovery
+
+### Multiple Disk Configuration
+
+* **Recommended for**
+* > 1TB DB files 
+* Higher IOPS / bandwidth requirements
+* **2 Config Choices**
+* Option 1: Use filegroups with multiple db files, place each db file on seperate data disk - **showed best performance in testing**, does not help scaling transaction log
+* Option 2: Create OS volumne on top of multiple data disks - striped
+
+
+
+
+
+
+
+
 
 
 
